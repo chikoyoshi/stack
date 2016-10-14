@@ -25,17 +25,20 @@ int main()
       break;
     }
     /*ここに括弧の整合性をチェックするプログラムを作成する                              */
-    while(buf[i] == '\n'){
-    	if(buf[i] == '[' || buf[i] == '{' || buf[i] == '(' || buf[i] == '<')
+    i=0;
+    while(buf[i] != '\0'){																		//bufが改行されるまでwhileでループする
+    	if(buf[i] == '[' || buf[i] == '{' || buf[i] == '(' || buf[i] == '<')					//開き括弧が来たらstackにpush
     		push(buf[i]);
-    	else if(buf[i] == ']' || buf[i] == '}' || buf[i] == ')' || buf[i] == '>'){
+    	else if(buf[i] == ']' || buf[i] == '}' || buf[i] == ')' || buf[i] == '>'){				//閉じ括弧が来たらstackからpush
+    		if((chst = stack_stock()) == 0)		 {err=1; break;}								//stackの中に入っていなかったらエラーループを抜ける
     		ch = pop();
-    		if(ch == '[' && buf[i] == ']')	continue;
-    		else if (ch == '{' && buf[i] == '}') continue;
-    		else if (ch == '(' && buf[i] == ')') continue;
-    		else if (ch == '<' && buf[i] == '>') continue;
+    		if(ch == '[' && buf[i] == ']')		 {i++; continue;}											//きちんとペアになっていなかったらエラーを出す
+    		else if (ch == '{' && buf[i] == '}') {i++; continue;}
+    		else if (ch == '(' && buf[i] == ')') {i++; continue;}
+    		else if (ch == '<' && buf[i] == '>') {i++; continue;}
     		else err = 1;
     	}
+    	buf[i] = ' ';
     	i++;
     }
   }
